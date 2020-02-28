@@ -5,18 +5,12 @@ import time
 
 if __name__ == "__main__":
     parser = argparser.Parser()
-    parser.validation()
+    valid_data = parser.validation()
 
+    print(valid_data)
 
-
-# if __name__ == "__main__":
-#     start_time = time.time()
-#     records = 10000
 #     headers = ['ID', 'Brand', 'Type', 'Color', 'Year',
 #                'Engine capacity', 'Engine power', 'Mileage', 'Body type']
-#
-#     print(f'--------time----------\n{str(datetime.timedelta(seconds=time.time() - start_time))}')
 
-
-# python3 file_generator.py -t csv -f main
-# Namespace(cars=False, filename='main', people=False, records=None, size=None, type='csv')
+# python3 file_generator.py -t csv --cars -f 1 -r 10
+# Namespace(cars=True, filename='1', people=False, processing=False, records=10, size=None, threading=False, type='csv')
