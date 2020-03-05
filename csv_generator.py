@@ -91,6 +91,9 @@ def generate_csv(headers, filename, **kwargs):
                     csv_people_filler(writer, id_)
                     id_ = id_ + 1
                     temp_size = os.stat(filename).st_size
+            else:
+                print('Smth went wrong...')
+                sys.exit(2)
         else:
             print('Smth went wrong...')
             sys.exit(2)
