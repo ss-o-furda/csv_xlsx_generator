@@ -1,8 +1,13 @@
+import os
 import random as rd
+import sys
 
 import xlsxwriter
+from faker import Faker
 
 import cars_lists
+
+fake = Faker()
 
 
 def generate_xlsx(headers, filename, records=None, size=None):
