@@ -1,52 +1,9 @@
 """Auxiliary module for generating csv files"""
 import csv
 import os
-import random as rd
 import sys
 
-from faker import Faker
-
-import cars_lists
-
-FAKE = Faker()
-
-
-def csv_cars_filler(writer, id_):
-    """
-    A function that writes machine parameters to a row
-    :param writer: csv.DictWriter obj
-    :param id_: row id
-    """
-    writer.writerow({
-        'ID': id_ + 1,
-        'Brand': rd.choice(cars_lists.cars_names_list),
-        'Type': rd.choice(cars_lists.cars_types_list),
-        'Color': rd.choice(cars_lists.cars_color_list),
-        'Year': rd.choice(cars_lists.cars_years_list),
-        'Engine capacity': rd.choice(cars_lists.cars_engine_capacity_list),
-        'Engine power': rd.choice(cars_lists.cars_engine_power_list),
-        'Mileage': rd.choice(cars_lists.cars_mileage_list),
-        'Body type': rd.choice(cars_lists.cars_body_type_list)
-    })
-
-
-def csv_people_filler(writer, id_):
-    """
-    A function that writes people information to a row
-    :param writer: csv.DictWriter obj
-    :param id_: row id
-    """
-    writer.writerow({
-        'ID': id_ + 1,
-        'Name': FAKE.first_name(),
-        'Surname': FAKE.last_name(),
-        'Username': FAKE.user_name(),
-        'Phone': FAKE.phone_number(),
-        'Address': FAKE.address(),
-        'Job': FAKE.job(),
-        'Personal Email': FAKE.ascii_free_email(),
-        'Company Email': FAKE.company_email()
-    })
+import row_formatter
 
 
 def generate_csv(headers, filename, **kwargs):
@@ -71,10 +28,10 @@ def generate_csv(headers, filename, **kwargs):
         if records:
             if cars:
                 for id_ in range(records):
-                    csv_cars_filler(writer, id_)
+                    writer.writerow(row_formatter.cars_formatter(id_))
             elif people:
                 for id_ in range(records):
-                    csv_people_filler(writer, id_)
+                    writer.writerow(row_formatter.people_formatter(id_))
             else:
                 print('Smth went wrong...')
                 sys.exit(2)
@@ -83,12 +40,12 @@ def generate_csv(headers, filename, **kwargs):
             id_ = 0
             if cars:
                 while temp_size < size:
-                    csv_cars_filler(writer, id_)
+                    writer.writerow(row_formatter.cars_formatter(id_))
                     id_ = id_ + 1
                     temp_size = os.stat(filename).st_size
             elif people:
                 while temp_size < size:
-                    csv_people_filler(writer, id_)
+                    writer.writerow(row_formatter.people_formatter(id_))
                     id_ = id_ + 1
                     temp_size = os.stat(filename).st_size
             else:
